@@ -16,5 +16,6 @@ export const connection = mysql.createConnection(dbConfig);
 export * from './start.js';
 export * from './users.js';
 export * from './bans.js';
-export * from './waiters.js';
+export * from './text-waiters.js';
 export * from './mailings.js';
+export * from './requests.js';

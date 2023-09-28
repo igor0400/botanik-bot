@@ -1,15 +1,23 @@
 import { bot, isBackups } from './settings.js';
 import {
+   backBtn,
+   btnMiddleware,
    connection,
-   recogniteSolutionByPhoto,
-   recogniteSolutionByText,
+   onPhoto,
+   onText,
    start as startDb,
 } from './src/index.js';
 import { startBackups } from './backups.js';
 import './src/index.js';
 
-bot.on('photo', recogniteSolutionByPhoto);
-bot.on('text', recogniteSolutionByText);
+// сделать прогон через анти ии
+
+// btns
+bot.action('back', (ctx) => btnMiddleware(ctx, backBtn));
+
+// listeners
+bot.on('photo', onPhoto);
+bot.on('text', onText);
 
 // db
 connection.connect();

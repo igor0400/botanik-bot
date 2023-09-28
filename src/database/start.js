@@ -21,9 +21,19 @@ export const start = () => {
     reason VARCHAR(250)
 )`);
 
-   connection.query(`CREATE TABLE IF NOT EXISTS waiters (
+   connection.query(`CREATE TABLE IF NOT EXISTS text_waiters (
     id INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(250),
+    user_id VARCHAR(250),
+    message_id VARCHAR(250),
+    chat_id VARCHAR(250)
+)`);
+
+   connection.query(`CREATE TABLE IF NOT EXISTS requests (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(250),
+    words_count VARCHAR(250),
+    language VARCHAR(250),
     user_id VARCHAR(250),
     message_id VARCHAR(250),
     chat_id VARCHAR(250)
