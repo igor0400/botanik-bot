@@ -1,0 +1,49 @@
+import messages from '../messages/index.js';
+import { bot, gpt4 } from '../../../settings.js';
+import { sendLoading, replyMessages } from '../../common/index.js';
+
+export const generateSolutionByText = async (ctx, text) => {
+   const { getSolutionMessage } = messages.gpt;
+   const { successSolution, errorSolution } = messages.responses;
+
+   const loading = await sendLoading(ctx);
+   const { chatId, messageId } = loading;
+
+   try {
+      const res = await gpt4.sendMessage(getSolutionMessage(text));
+
+      loading.stop();
+
+      if (res?.text?.toLowerCase() !== 'no') {
+         await bot.telegram.editMessageText(
+            chatId,
+            messageId,
+            undefined,
+            successSolution(res.text),
+            {
+               parse_mode: 'HTML',
+            }
+         );
+      } else {
+         await bot.telegram.editMessageText(
+            chatId,
+            messageId,
+            undefined,
+            errorSolution(),
+            {
+               parse_mode: 'HTML',
+            }
+         );
+      }
+   } catch (e) {
+      await bot.telegram.editMessageText(
+         chatId,
+         messageId,
+         undefined,
+         replyMessages.error,
+         {
+            parse_mode: 'HTML',
+         }
+      );
+   }
+};
