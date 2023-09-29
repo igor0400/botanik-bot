@@ -1,5 +1,4 @@
 export * from './parseDate.js';
-export * from './sendMenu.js';
-export * from './sendLoading.js';
 export * from './getTextFromPhotoByPhotoId.js';
 export * from './getCtxUserData.js';
+export * from './generate-text-validation.js';

@@ -1,23 +1,16 @@
-import {
-   getCtxUserData,
-   wordsCountMarkup,
-   wordsCountMessage,
-} from '../common/index.js';
+import { getCtxUserData, sendWordsCount } from '../common/index.js';
 import { createRequest } from '../database/index.js';
 
 export const sochineniyeBtn = async (ctx) => {
    const user = getCtxUserData(ctx);
    const userId = user.id;
 
-   const mess = await ctx.editMessageText(wordsCountMessage(), {
-      parse_mode: 'HTML',
-      reply_markup: wordsCountMarkup,
-   });
+   const { message } = await sendWordsCount(ctx, 'sochineniye');
 
    await createRequest({
       type: 'sochineniye',
       userId,
-      chatId: mess.chat.id,
-      messageId: mess.message_id,
+      chatId: message.chat.id,
+      messageId: message.message_id,
    });
 };

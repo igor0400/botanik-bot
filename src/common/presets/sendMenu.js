@@ -1,4 +1,4 @@
-import { menuMarkup, menuMessage } from '../../common/index.js';
+import { menuMarkup, menuMessage } from '../index.js';
 
 export const sendMenu = async (ctx, firstName) => {
    await ctx.reply(menuMessage(firstName), {
