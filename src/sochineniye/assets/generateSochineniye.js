@@ -1,13 +1,23 @@
 import messages from '../messages/index.js';
 import { bot, gpt4 } from '../../../settings.js';
-import { sendLoading, replyMessages, backMarkup } from '../../common/index.js';
+import {
+   sendLoading,
+   replyMessages,
+   backMarkup,
+   getCtxUserData,
+} from '../../common/index.js';
+import { getRequestByUserId } from '../../database/index.js';
 
-export const generateSolutionByText = async (ctx, text) => {
+export const generateSochineniye = async (ctx) => {
    const { getSolutionMessage } = messages.gpt;
    const { successSolution, errorSolution } = messages.responses;
+   const user = getCtxUserData(ctx);
+   const userId = user.id;
 
    const loading = await sendLoading(ctx);
    const { chatId, messageId } = loading;
+
+   const request = await getRequestByUserId(userId, 'sochineniye');
 
    try {
       const res = await gpt4.sendMessage(getSolutionMessage(text));
@@ -16,7 +26,7 @@ export const generateSolutionByText = async (ctx, text) => {
 
       loading.stop();
 
-      if (res?.text?.toLowerCase() !== 'no') {
+      if (res?.text) {
          await bot.telegram.editMessageText(
             chatId,
             messageId,

@@ -33,7 +33,7 @@ export const start = () => {
     id INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(250),
     words_count VARCHAR(250),
-    language VARCHAR(250),
+    topic VARCHAR(250),
     user_id VARCHAR(250),
     message_id VARCHAR(250),
     chat_id VARCHAR(250)

@@ -2,12 +2,13 @@ import {
    changeUserNameById,
    getBanUserByUserId,
 } from '../../database/index.js';
+import { getCtxUserData } from '../assets/index.js';
 import { banMessage } from '../responses/index.js';
 
 export const btnMiddleware = async (ctx, func) => {
-   const query = ctx.update.callback_query;
-   const userId = query.from.id;
-   const userName = query.from.username;
+   const user = getCtxUserData(ctx);
+   const userId = user.id;
+   const userName = user.username;
    const banUser = await getBanUserByUserId(userId);
 
    await changeUserNameById(userId, userName);
@@ -19,5 +20,10 @@ export const btnMiddleware = async (ctx, func) => {
       return;
    }
 
-   return func(ctx);
+   try {
+      const data = await func(ctx);
+      return data;
+   } catch (e) {
+      console.error('ERROR: ', e);
+   }
 };

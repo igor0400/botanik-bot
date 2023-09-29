@@ -1,12 +1,13 @@
 import { createUser, getUserById } from '../../database/index.js';
 import { bot } from '../../../settings.js';
-import { sendMenu } from '../../common/index.js';
+import { getCtxUserData, sendMenu } from '../../common/index.js';
 
 bot.start(async (ctx) => {
-   const userId = ctx.message.from.id;
-   const userName = ctx.message.from.username;
-   const firstName = ctx.message.from.first_name;
-   const lastName = ctx.message.from?.last_name;
+   const user = getCtxUserData(ctx);
+   const userId = user.id;
+   const userName = user.username;
+   const firstName = user.first_name;
+   const lastName = user?.last_name;
    const chatId = ctx.message.chat.id;
 
    const userData = await getUserById(userId);
@@ -15,5 +16,5 @@ bot.start(async (ctx) => {
       createUser({ userId, userName, firstName, lastName, chatId });
    }
 
-   await sendMenu(ctx);
+   await sendMenu(ctx, firstName);
 });

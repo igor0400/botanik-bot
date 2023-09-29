@@ -1,7 +1,8 @@
+import { getCtxUserData } from '../assets/index.js';
 import { menuMarkup, menuMessage } from '../responses/index.js';
 
 export const backBtn = async (ctx) => {
-   const firstName = ctx.update.callback_query.from.first_name;
+   const firstName = getCtxUserData(ctx).first_name;
 
    await ctx.editMessageText(menuMessage(firstName), {
       parse_mode: 'html',

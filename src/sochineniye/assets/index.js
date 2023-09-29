@@ -1,1 +1,1 @@
-export * from './generateSolutionByText.js';
+export * from './generateSochineniye.js';
