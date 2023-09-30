@@ -23,6 +23,10 @@ export const menuMarkup = {
          { text: 'Презентация', callback_data: 'presentation' },
       ],
       [
+         { text: 'Эссе', callback_data: 'esse' },
+         { text: 'Дипломная', callback_data: 'diplom' },
+      ],
+      [
          { text: '🎓 Профиль', callback_data: 'profile' },
          { text: 'ℹ️ Инфо', callback_data: 'info' },
          { text: '🆘 Поддержка', callback_data: 'support' },

@@ -4,6 +4,7 @@ import { startBackups } from './backups.js';
 import './src/index.js';
 import './src/common/main.js';
 import './src/sochineniye/main.js';
+import './src/izlozheniye/main.js';
 
 // listeners
 bot.on('photo', onPhoto);

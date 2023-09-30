@@ -3,14 +3,11 @@ import {
    addRequestTopicByUserId,
    addRequestWordsCountByUserId,
    deleteTextWaiterByUserId,
+   getRequestByUserId,
    getTextWaiterByUserId,
 } from '../../database/index.js';
 import { recogniteSolutionByText } from '../../recognite-solution/index.js';
-import {
-   generateSochineniye,
-   sendSochineniyePlan,
-   sendSochineniyeWordsCount,
-} from '../../sochineniye/index.js';
+import { topicActions, wordsCountActions } from '../actions.js';
 import { generateTextValidation, getCtxData } from '../assets/index.js';
 import { textValidations, wordsCountValidations } from '../configs/index.js';
 
@@ -22,6 +19,7 @@ export const onText = async (ctx) => {
 
    if (waiter) {
       const { type } = waiter;
+      const request = await getRequestByUserId(userId);
 
       await ctx.deleteMessage();
 
@@ -32,9 +30,14 @@ export const onText = async (ctx) => {
          );
          if (!isValid) return;
 
+         const actions = topicActions(ctx);
+
          await addRequestTopicByUserId(userId, text);
          await deleteTextWaiterByUserId(userId);
-         await sendSochineniyeWordsCount(ctx);
+
+         if (request && actions[request.type]) {
+            await actions[request.type]();
+         }
          return;
       }
 
@@ -47,9 +50,14 @@ export const onText = async (ctx) => {
          );
          if (!isValid) return;
 
+         const actions = wordsCountActions(ctx);
+
          await addRequestWordsCountByUserId(userId, count);
          await deleteTextWaiterByUserId(userId);
-         await sendSochineniyePlan(ctx);
+
+         if (request && actions[request.type]) {
+            await actions[request.type]();
+         }
          return;
       }
 
@@ -60,9 +68,15 @@ export const onText = async (ctx) => {
          );
          if (!isValid) return;
 
+         const actions = planActions(ctx);
+
          await addRequestPlanByUserId(userId, text);
          await deleteTextWaiterByUserId(userId);
-         await generateSochineniye(ctx);
+
+         if (request && actions[type]) {
+            await actions[type]();
+         }
+
          return;
       }
    }
