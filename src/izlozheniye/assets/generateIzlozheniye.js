@@ -6,6 +6,7 @@ import {
    getCtxData,
    sendLoading,
    gptResponseProcessing,
+   sendBackMarkup,
 } from '../../common/index.js';
 import {
    changeRequestStatusByUserId,
@@ -47,7 +48,7 @@ export const generateIzlozheniye = async (ctx) => {
                successSolution(gptResponseProcessing(res.text)),
                {
                   parse_mode: 'HTML',
-                  reply_markup: backMarkup,
+                  reply_markup: sendBackMarkup,
                }
             );
          } else {

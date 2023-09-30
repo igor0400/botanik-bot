@@ -9,3 +9,12 @@ export const backBtn = async (ctx) => {
       reply_markup: menuMarkup,
    });
 };
+
+export const sendBackBtn = async (ctx) => {
+   const { user } = getCtxData(ctx);
+
+   await ctx.sendMessage(menuMessage(user.first_name), {
+      parse_mode: 'html',
+      reply_markup: menuMarkup,
+   });
+};

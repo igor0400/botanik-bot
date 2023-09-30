@@ -5,6 +5,7 @@ import {
    replyMessages,
    backMarkup,
    gptResponseProcessing,
+   sendBackMarkup,
 } from '../../common/index.js';
 
 export const generateSolutionByText = async (ctx, text) => {
@@ -29,7 +30,7 @@ export const generateSolutionByText = async (ctx, text) => {
             successSolution(gptResponseProcessing(res.text)),
             {
                parse_mode: 'HTML',
-               reply_markup: backMarkup,
+               reply_markup: sendBackMarkup,
             }
          );
       } else {
