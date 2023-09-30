@@ -46,6 +46,7 @@ export const generateSolutionByText = async (ctx, text) => {
          );
       }
    } catch (e) {
+      console.log(e);
       loading.stop();
 
       await bot.telegram.editMessageText(
