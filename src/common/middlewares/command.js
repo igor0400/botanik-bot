@@ -2,11 +2,11 @@ import {
    changeUserNameById,
    getBanUserByUserId,
 } from '../../database/index.js';
-import { getCtxUserData } from '../assets/index.js';
+import { getCtxData } from '../assets/index.js';
 import { banMessage } from '../responses/index.js';
 
 export const commandMiddleware = async (ctx, func) => {
-   const user = getCtxUserData(ctx);
+   const { user } = getCtxData(ctx);
    const userId = user.id;
    const userName = user.username;
    const banUser = await getBanUserByUserId(userId);

@@ -6,3 +6,5 @@ export * from './ban.js';
 export * from './menu.js';
 export * from './back.js';
 export * from './words-count.js';
+export * from './topic.js';
+export * from './plan.js';

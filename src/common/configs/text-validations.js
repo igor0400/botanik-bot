@@ -1,3 +1,10 @@
+export const textValidations = (text) => [
+   {
+      stipulation: text.trim() === '',
+      text: '🚫 <b>Введите валидный текст</b>',
+   },
+];
+
 export const wordsCountValidations = (count) => [
    {
       stipulation: !count && count !== 0,

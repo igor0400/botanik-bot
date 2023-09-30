@@ -22,10 +22,12 @@ export const deleteRequestByUserId = async (userId, type) => {
    return data;
 };
 
-export const getRequestByUserId = async (userId) => {
+export const getRequestByUserId = async (userId, type) => {
+   const addType = type ? ` AND type = '${type}'` : '';
+
    const data = await connection
       .promise()
-      .query(`SELECT * FROM requests WHERE user_id = '${userId}'`);
+      .query(`SELECT * FROM requests WHERE user_id = '${userId}'` + addType);
 
    return data[0][0];
 };
@@ -33,7 +35,9 @@ export const getRequestByUserId = async (userId) => {
 export const addRequestTopicByUserId = async (userId, topic) => {
    const data = await connection
       .promise()
-      .query(`UPDATE requests SET topic = "${topic}" WHERE user_id = '${userId}'`);
+      .query(
+         `UPDATE requests SET topic = "${topic}" WHERE user_id = '${userId}'`
+      );
 
    return data;
 };
@@ -43,6 +47,26 @@ export const addRequestWordsCountByUserId = async (userId, wordsCount) => {
       .promise()
       .query(
          `UPDATE requests SET words_count = "${wordsCount}" WHERE user_id = '${userId}'`
+      );
+
+   return data;
+};
+
+export const addRequestPlanByUserId = async (userId, plan) => {
+   const data = await connection
+      .promise()
+      .query(
+         `UPDATE requests SET plan = "${plan}" WHERE user_id = '${userId}'`
+      );
+
+   return data;
+};
+
+export const changeRequestStatusByUserId = async (userId, status) => {
+   const data = await connection
+      .promise()
+      .query(
+         `UPDATE requests SET status = "${status}" WHERE user_id = '${userId}'`
       );
 
    return data;

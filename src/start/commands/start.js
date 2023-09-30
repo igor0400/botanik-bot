@@ -1,9 +1,9 @@
 import { createUser, getUserById } from '../../database/index.js';
 import { bot } from '../../../settings.js';
-import { getCtxUserData, sendMenu } from '../../common/index.js';
+import { getCtxData, sendMenu } from '../../common/index.js';
 
 bot.start(async (ctx) => {
-   const user = getCtxUserData(ctx);
+   const { user } = getCtxData(ctx);
    const userId = user.id;
    const userName = user.username;
    const firstName = user.first_name;

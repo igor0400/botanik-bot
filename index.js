@@ -5,12 +5,6 @@ import './src/index.js';
 import './src/common/main.js';
 import './src/sochineniye/main.js';
 
-// сделать сочинения
-//// сделать получение темы
-//// сделать получение кол-ва слов (поменять импорты функции в кнопке кол-во слов)
-//// сделать получение плана
-//// сделать генерацию сочинения
-
 // listeners
 bot.on('photo', onPhoto);
 bot.on('text', onText);

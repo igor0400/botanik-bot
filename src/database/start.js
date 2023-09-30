@@ -31,9 +31,11 @@ export const start = () => {
 
    connection.query(`CREATE TABLE IF NOT EXISTS requests (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    status VARCHAR(250) DEFAULT "CREATED",
     type VARCHAR(250),
     words_count VARCHAR(250),
     topic VARCHAR(250),
+    plan TEXT,
     user_id VARCHAR(250),
     message_id VARCHAR(250),
     chat_id VARCHAR(250)

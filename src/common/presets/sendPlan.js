@@ -1,9 +1,9 @@
 import { bot } from '../../../settings.js';
 import { createTextWaiter, getRequestByUserId } from '../../database/index.js';
 import { getCtxData } from '../assets/index.js';
-import { wordsCountMarkup, wordsCountMessage } from '../responses/index.js';
+import { planMarkup, planMessage } from '../responses/index.js';
 
-export const sendWordsCount = async (ctx) => {
+export const sendPlan = async (ctx, kind) => {
    const { user } = getCtxData(ctx);
    const userId = user.id;
 
@@ -13,7 +13,7 @@ export const sendWordsCount = async (ctx) => {
       const { chat_id, message_id } = request;
 
       await createTextWaiter({
-         type: 'words-count',
+         type: 'plan',
          userId,
          chatId: chat_id,
          messageId: message_id,
@@ -23,10 +23,10 @@ export const sendWordsCount = async (ctx) => {
          chat_id,
          message_id,
          undefined,
-         wordsCountMessage(),
+         planMessage(kind),
          {
             parse_mode: 'HTML',
-            reply_markup: wordsCountMarkup,
+            reply_markup: planMarkup,
          }
       );
    }

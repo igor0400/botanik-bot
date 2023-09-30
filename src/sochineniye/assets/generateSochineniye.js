@@ -4,14 +4,18 @@ import {
    sendLoading,
    replyMessages,
    backMarkup,
-   getCtxUserData,
+   getCtxData,
 } from '../../common/index.js';
 import { getRequestByUserId } from '../../database/index.js';
+
+// выводить сообщение о том что уже есть запрос и надо его дождаться
+// сделать генерацию сочинения
+// мб сделать несколько запросов
 
 export const generateSochineniye = async (ctx) => {
    const { getSolutionMessage } = messages.gpt;
    const { successSolution, errorSolution } = messages.responses;
-   const user = getCtxUserData(ctx);
+   const { user } = getCtxData(ctx);
    const userId = user.id;
 
    const loading = await sendLoading(ctx);

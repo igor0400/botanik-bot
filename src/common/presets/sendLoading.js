@@ -1,6 +1,6 @@
 import { bot } from '../../../settings.js';
 
-export const sendLoading = async (ctx, initText = '🤔 Решаю') => {
+export const sendLoading = async (ctx, initText = '🤔 Формирую ответ') => {
    let isWork = true;
    let count = 2;
    let type = 'dec';

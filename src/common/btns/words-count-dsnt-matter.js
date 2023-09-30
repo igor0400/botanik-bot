@@ -1,12 +1,12 @@
 import { getRequestByUserId } from '../../database/requests.js';
-import { generateSochineniye } from '../../sochineniye/index.js';
-import { getCtxUserData } from '../assets/index.js';
+import { sendSochineniyePlan } from '../../sochineniye/index.js';
+import { getCtxData } from '../assets/index.js';
 
 export const wordsCountDsntMatterBtn = async (ctx) => {
-   const user = getCtxUserData(ctx);
+   const { user } = getCtxData(ctx);
    const userId = user.id;
    const actions = {
-      sochineniye: generateSochineniye,
+      sochineniye: async () => await sendSochineniyePlan(ctx),
    };
 
    const request = await getRequestByUserId(userId);
