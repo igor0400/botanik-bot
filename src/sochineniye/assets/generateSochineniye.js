@@ -1,70 +1,81 @@
 import messages from '../messages/index.js';
 import { bot, gpt4 } from '../../../settings.js';
 import {
-   sendLoading,
    replyMessages,
    backMarkup,
    getCtxData,
+   sendLoading,
 } from '../../common/index.js';
-import { getRequestByUserId } from '../../database/index.js';
+import {
+   changeRequestStatusByUserId,
+   deleteRequestByUserId,
+   getRequestByUserId,
+} from '../../database/index.js';
 
 // выводить сообщение о том что уже есть запрос и надо его дождаться
-// сделать генерацию сочинения
 // мб сделать несколько запросов
 
 export const generateSochineniye = async (ctx) => {
    const { getSolutionMessage } = messages.gpt;
-   const { successSolution, errorSolution } = messages.responses;
+   const { successSolution } = messages.responses;
    const { user } = getCtxData(ctx);
    const userId = user.id;
 
-   const loading = await sendLoading(ctx);
-   const { chatId, messageId } = loading;
-
    const request = await getRequestByUserId(userId, 'sochineniye');
 
-   try {
-      const res = await gpt4.sendMessage(getSolutionMessage(text));
+   if (request) {
+      const { chat_id, message_id, topic, words_count, plan } = request;
 
-      console.log(text, res);
+      const loading = await sendLoading(ctx, {
+         chat_id,
+         message_id,
+      });
 
-      loading.stop();
+      await changeRequestStatusByUserId(userId, 'PROCESSING');
 
-      if (res?.text) {
-         await bot.telegram.editMessageText(
-            chatId,
-            messageId,
-            undefined,
-            successSolution(res.text),
-            {
-               parse_mode: 'HTML',
-               reply_markup: backMarkup,
-            }
+      try {
+         const res = await gpt4.sendMessage(
+            getSolutionMessage(topic, words_count, plan)
          );
-      } else {
+
+         await deleteRequestByUserId(userId);
+         loading.stop();
+
+         if (res?.text) {
+            await bot.telegram.editMessageText(
+               chat_id,
+               message_id,
+               undefined,
+               successSolution(res.text),
+               {
+                  parse_mode: 'HTML',
+                  reply_markup: backMarkup,
+               }
+            );
+         } else {
+            await sendError();
+         }
+      } catch (e) {
+         await sendError();
+      }
+
+      async function sendError() {
+         if (loading.isWork) loading.stop();
          await bot.telegram.editMessageText(
-            chatId,
-            messageId,
+            chat_id,
+            message_id,
             undefined,
-            errorSolution(),
+            replyMessages.error,
             {
                parse_mode: 'HTML',
                reply_markup: backMarkup,
             }
          );
       }
-   } catch (e) {
-      loading.stop();
-
-      await bot.telegram.editMessageText(
-         chatId,
-         messageId,
-         undefined,
-         replyMessages.error,
-         {
-            parse_mode: 'HTML',
-            reply_markup: backMarkup,
-         }
-      );
+   } else {
+      await bot.telegram.sendMessage(userId, replyMessages.error, {
+         parse_mode: 'HTML',
+         reply_markup: backMarkup,
+      });
    }
 };

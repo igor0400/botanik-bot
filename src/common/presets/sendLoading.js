@@ -1,11 +1,22 @@
 import { bot } from '../../../settings.js';
 
-export const sendLoading = async (ctx, initText = '🤔 Формирую ответ') => {
+export const sendLoading = async (
+   ctx,
+   changeData,
+   initText = '🤔 Формирую ответ'
+) => {
    let isWork = true;
    let count = 2;
    let type = 'dec';
 
-   const message = await ctx.sendMessage(`${initText}...`);
+   const message = changeData
+      ? await bot.telegram.editMessageText(
+           changeData.chat_id,
+           changeData.message_id,
+           undefined,
+           initText
+        )
+      : await ctx.sendMessage(`${initText}...`);
 
    const internalId = setInterval(async () => {
       let text = initText;
@@ -40,8 +51,8 @@ export const sendLoading = async (ctx, initText = '🤔 Формирую отв�
       chatId: message.chat.id,
       isWork,
       stop: () => {
-         isWork = false;
          clearInterval(internalId);
+         isWork = false;
       },
    };
 };

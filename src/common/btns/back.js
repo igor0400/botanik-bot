@@ -2,9 +2,9 @@ import { getCtxData } from '../assets/index.js';
 import { menuMarkup, menuMessage } from '../responses/index.js';
 
 export const backBtn = async (ctx) => {
-   const firstName = getCtxData(ctx).first_name;
+   const { user } = getCtxData(ctx);
 
-   await ctx.editMessageText(menuMessage(firstName), {
+   await ctx.editMessageText(menuMessage(user.first_name), {
       parse_mode: 'html',
       reply_markup: menuMarkup,
    });

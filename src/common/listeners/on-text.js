@@ -1,12 +1,13 @@
-import { bot } from '../../../settings.js';
 import {
    addRequestPlanByUserId,
    addRequestTopicByUserId,
    addRequestWordsCountByUserId,
+   deleteTextWaiterByUserId,
    getTextWaiterByUserId,
 } from '../../database/index.js';
 import { recogniteSolutionByText } from '../../recognite-solution/index.js';
 import {
+   generateSochineniye,
    sendSochineniyePlan,
    sendSochineniyeWordsCount,
 } from '../../sochineniye/index.js';
@@ -20,7 +21,7 @@ export const onText = async (ctx) => {
    const waiter = await getTextWaiterByUserId(userId);
 
    if (waiter) {
-      const { type, chat_id, message_id } = waiter;
+      const { type } = waiter;
 
       await ctx.deleteMessage();
 
@@ -32,7 +33,7 @@ export const onText = async (ctx) => {
          if (!isValid) return;
 
          await addRequestTopicByUserId(userId, text);
-
+         await deleteTextWaiterByUserId(userId);
          await sendSochineniyeWordsCount(ctx);
          return;
       }
@@ -47,7 +48,7 @@ export const onText = async (ctx) => {
          if (!isValid) return;
 
          await addRequestWordsCountByUserId(userId, count);
-
+         await deleteTextWaiterByUserId(userId);
          await sendSochineniyePlan(ctx);
          return;
       }
@@ -60,13 +61,8 @@ export const onText = async (ctx) => {
          if (!isValid) return;
 
          await addRequestPlanByUserId(userId, text);
-
-         await bot.telegram.editMessageText(
-            chat_id,
-            message_id,
-            undefined,
-            'Генерация сочинения...'
-         );
+         await deleteTextWaiterByUserId(userId);
+         await generateSochineniye(ctx);
          return;
       }
    }
