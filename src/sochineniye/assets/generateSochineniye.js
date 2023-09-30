@@ -5,15 +5,13 @@ import {
    backMarkup,
    getCtxData,
    sendLoading,
+   gptResponseProcessing,
 } from '../../common/index.js';
 import {
    changeRequestStatusByUserId,
    deleteRequestByUserId,
    getRequestByUserId,
 } from '../../database/index.js';
-
-// выводить сообщение о том что уже есть запрос и надо его дождаться
-// мб сделать несколько запросов
 
 export const generateSochineniye = async (ctx) => {
    const { getSolutionMessage } = messages.gpt;
@@ -46,7 +44,7 @@ export const generateSochineniye = async (ctx) => {
                chat_id,
                message_id,
                undefined,
-               successSolution(res.text),
+               successSolution(gptResponseProcessing(res.text)),
                {
                   parse_mode: 'HTML',
                   reply_markup: backMarkup,
@@ -57,6 +55,7 @@ export const generateSochineniye = async (ctx) => {
          }
       } catch (e) {
          await sendError();
+         console.log(e);
       }
 
       async function sendError() {

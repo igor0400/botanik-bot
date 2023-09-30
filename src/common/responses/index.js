@@ -8,3 +8,4 @@ export * from './back.js';
 export * from './words-count.js';
 export * from './topic.js';
 export * from './plan.js';
+export * from './alreadyRequested.js';

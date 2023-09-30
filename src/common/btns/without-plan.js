@@ -1,12 +1,16 @@
-import { getRequestByUserId } from '../../database/requests.js';
 import { getCtxData } from '../assets/index.js';
 import { generateSochineniye } from '../../sochineniye/index.js';
+import {
+   deleteTextWaiterByUserId,
+   getRequestByUserId,
+} from '../../database/index.js';
 
 export const withoutPlanBtn = async (ctx) => {
    const { user } = getCtxData(ctx);
    const userId = user.id;
    const actions = {
       sochineniye: async () => {
+         await deleteTextWaiterByUserId(userId);
          await generateSochineniye(ctx);
       },
    };

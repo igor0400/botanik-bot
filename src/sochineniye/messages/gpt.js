@@ -1,6 +1,6 @@
 export default {
    getSolutionMessage: (topic, length, plan) => {
-      const addLendth = length ? ` на ${length} слов` : '';
+      const addLendth = length ? ` оно должно содержать ${length} слов` : '';
       const addPlan = plan
          ? `. При написании следуй этому плану:\n${plan}`
          : '';

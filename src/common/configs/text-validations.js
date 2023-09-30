@@ -15,7 +15,7 @@ export const wordsCountValidations = (count) => [
       text: '🚫 <b>Минимальная длинна 1 слово</b>',
    },
    {
-      stipulation: count > 1000,
-      text: '🚫 <b>Максимальная длинна 1000 слов</b>',
+      stipulation: count > 300,
+      text: '🚫 <b>Максимальная длинна 300 слов</b>',
    },
 ];

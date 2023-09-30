@@ -1,6 +1,11 @@
 import messages from '../messages/index.js';
 import { bot, gpt4 } from '../../../settings.js';
-import { sendLoading, replyMessages, backMarkup } from '../../common/index.js';
+import {
+   sendLoading,
+   replyMessages,
+   backMarkup,
+   gptResponseProcessing,
+} from '../../common/index.js';
 
 export const generateSolutionByText = async (ctx, text) => {
    const { getSolutionMessage } = messages.gpt;
@@ -21,7 +26,7 @@ export const generateSolutionByText = async (ctx, text) => {
             chatId,
             messageId,
             undefined,
-            successSolution(res.text),
+            successSolution(gptResponseProcessing(res.text)),
             {
                parse_mode: 'HTML',
                reply_markup: backMarkup,
