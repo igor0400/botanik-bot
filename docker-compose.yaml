@@ -1,24 +1,24 @@
 version: '3'
 
 services:
-   #  app:
-   #     build: ./
+  #  app:
+  #     build: ./
 
-   #     container_name: 'botanik-bot'
-   #     image: botanik-bot
-   #     restart: always
+  #     container_name: 'botanik-bot'
+  #     image: botanik-bot
+  #     restart: always
 
-   #     links:
-   #        - database:database
+  #     links:
+  #        - database:database
 
-   #     environment:
-   #        - DATABASE_HOST=database
-   #        - DATABASE_PORT=3306
-   #        - BOT_TOKEN=6598308741:AAFfE8VWqxbq4GRgxypnXbeOkgalp9_UX0E
-   #        - IS_BACKUPS=true
+  #     environment:
+  #        - DATABASE_HOST=database
+  #        - DATABASE_PORT=3306
+  #        - BOT_TOKEN=6598308741:AAFfE8VWqxbq4GRgxypnXbeOkgalp9_UX0E
+  #        - IS_BACKUPS=true
 
    database:
-      container_name: 'botanik-database'
+      container_name: 'database'
       image: mysql:8.0
       restart: always
       environment:
@@ -32,10 +32,13 @@ services:
       expose:
          - '3306'
       volumes:
-         - D:/Progects/BotanikBot/system/database:/var/lib/mysql
+         - database:/var/lib/mysql
       command:
          [
             'mysqld',
             '--character-set-server=utf8mb4',
             '--collation-server=utf8mb4_unicode_ci',
          ]
+volumes:
+   database:
+      driver: local

@@ -7,6 +7,8 @@ export const getTextFromPhotoByPhotoId = async (photoId) => {
       const downloadUrl = await bot.telegram.getFileLink(photoId);
       const photoUrl = downloadUrl.href;
 
+      // сделать распознование рукописного текста
+
       const {
          data: { text },
       } = await Tesseract.recognize(photoUrl, 'rus');
