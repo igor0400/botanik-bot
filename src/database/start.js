@@ -1,10 +1,11 @@
 import { ranks } from '../../settings.js';
 import { connection } from './index.js';
 
-export const start = () => {
-   connection.query(`USE main_database`);
+export const start = async () => {
+    return await reqMiddleware(async () => {
+        await connection.promise().query(`USE main_database`);
 
-   connection.query(`CREATE TABLE IF NOT EXISTS users (
+        await connection.promise().query(`CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(250) PRIMARY KEY,
     first_name VARCHAR(250),
     last_name VARCHAR(250),
@@ -15,13 +16,14 @@ export const start = () => {
     is_admin BOOLEAN DEFAULT 0
 )`);
 
-   connection.query(`CREATE TABLE IF NOT EXISTS bans (
+        await connection.promise().query(`CREATE TABLE IF NOT EXISTS bans (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id VARCHAR(250),
     reason VARCHAR(250)
 )`);
 
-   connection.query(`CREATE TABLE IF NOT EXISTS text_waiters (
+        await connection.promise()
+            .query(`CREATE TABLE IF NOT EXISTS text_waiters (
     id INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(250),
     user_id VARCHAR(250),
@@ -29,7 +31,7 @@ export const start = () => {
     chat_id VARCHAR(250)
 )`);
 
-   connection.query(`CREATE TABLE IF NOT EXISTS requests (
+        await connection.promise().query(`CREATE TABLE IF NOT EXISTS requests (
     id INT PRIMARY KEY AUTO_INCREMENT,
     status VARCHAR(250) DEFAULT "CREATED",
     type VARCHAR(250),
@@ -41,9 +43,10 @@ export const start = () => {
     chat_id VARCHAR(250)
 )`);
 
-   connection.query(`CREATE TABLE IF NOT EXISTS mailings (
+        await connection.promise().query(`CREATE TABLE IF NOT EXISTS mailings (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id VARCHAR(250),
     text TEXT
 )`);
+    });
 };
