@@ -1,5 +1,5 @@
 import { bot, isBackups } from './settings.js';
-import { connection, onPhoto, onText, start as startDb } from './src/index.js';
+import { onPhoto, onText, start as startDb } from './src/index.js';
 import { startBackups } from './backups.js';
 import './src/index.js';
 import './src/common/main.js';
