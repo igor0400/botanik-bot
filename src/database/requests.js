@@ -1,4 +1,5 @@
 import { connection } from './index.js';
+import { reqMiddleware } from './req-middleware.js';
 
 export const createRequest = async ({ type, userId, chatId, messageId }) => {
     await deleteRequestByUserId(userId);

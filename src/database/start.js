@@ -1,5 +1,6 @@
 import { ranks } from '../../settings.js';
 import { connection } from './index.js';
+import { reqMiddleware } from './req-middleware.js';
 
 export const start = async () => {
     return await reqMiddleware(async () => {

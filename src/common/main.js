@@ -1,11 +1,11 @@
 import { bot } from '../../settings.js';
 import {
-   backBtn,
-   cancelRequestBtn,
-   sendBackBtn,
-   wordsCountDsntMatterBtn,
+    backBtn,
+    cancelRequestBtn,
+    sendBackBtn,
+    wordsCountDsntMatterBtn,
+    withoutPlanBtn,
 } from './btns/index.js';
-import { withoutPlanBtn } from './btns/without-plan.js';
 import { btnMiddleware } from './middlewares/index.js';
 
 bot.action('back', (ctx) => btnMiddleware(ctx, backBtn));
