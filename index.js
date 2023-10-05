@@ -11,19 +11,18 @@ bot.on('photo', onPhoto);
 bot.on('text', onText);
 
 try {
-   // db
-   connection.connect();
-   startDb();
+    // db
+    startDb();
 
-   bot.launch().catch((error) => {
-      console.error('Error when launching the bot:', error);
-   });
+    bot.launch().catch((error) => {
+        console.error('Error when launching the bot:', error);
+    });
 
-   console.log('Bot started!!!');
+    console.log('Bot started!!!');
 
-   if (isBackups) {
-      startBackups();
-   }
+    if (isBackups) {
+        startBackups();
+    }
 } catch (e) {
-   console.error('MAIN ERROR: ', e);
+    console.error('MAIN ERROR: ', e);
 }
