@@ -1,36 +1,27 @@
-import { connection } from './index.js';
-import { reqMiddleware } from './req-middleware.js';
+import { customRequest } from './custom-request.js';
 
 export const createTextWaiter = async ({ type, userId, chatId, messageId }) => {
-    await deleteTextWaiterByUserId(userId);
+   await deleteTextWaiterByUserId(userId);
 
-    return await reqMiddleware(async () => {
-        const data = await connection
-            .promise()
-            .query(
-                `INSERT INTO text_waiters (type, user_id, chat_id, message_id) VALUES ('${type}', '${userId}', '${chatId}', '${messageId}')`
-            );
+   const data = await customRequest(
+      `INSERT INTO text_waiters (type, user_id, chat_id, message_id) VALUES ('${type}', '${userId}', '${chatId}', '${messageId}')`
+   );
 
-        return data;
-    });
+   return data;
 };
 
 export const deleteTextWaiterByUserId = async (userId) => {
-    return await reqMiddleware(async () => {
-        const data = await connection
-            .promise()
-            .query(`DELETE FROM text_waiters WHERE user_id = '${userId}'`);
+   const data = await customRequest(
+      `DELETE FROM text_waiters WHERE user_id = '${userId}'`
+   );
 
-        return data;
-    });
+   return data;
 };
 
 export const getTextWaiterByUserId = async (userId) => {
-    return await reqMiddleware(async () => {
-        const data = await connection
-            .promise()
-            .query(`SELECT * FROM text_waiters WHERE user_id = '${userId}'`);
+   const data = await customRequest(
+      `SELECT * FROM text_waiters WHERE user_id = '${userId}'`
+   );
 
-        return data[0][0];
-    });
+   return data[0];
 };
